@@ -1,0 +1,326 @@
+[
+  {
+    "query_number": 1,
+    "query": "What is the status of Survey 142/3A?",
+    "parsed_filters": {
+      "raw_survey_number": "142/3A",
+      "normalized_survey_number": "142/3A",
+      "survey_number": "142/3A",
+      "has_reliable_filter": true
+    },
+    "pg_facts": [
+      {
+        "parcel_id": "PCL-VADADALA-142-3A",
+        "survey_number": "142/3A",
+        "area_hectares": 0.45,
+        "land_category": "Agricultural",
+        "acquisition_status": "Section 19 Notification Issued / Award Pending",
+        "village": "Vadadala",
+        "tehsil": "Savli",
+        "district": "Vadodara",
+        "state": "Gujarat",
+        "total_award_amount": 2450000.0,
+        "payment_status": "Calculated",
+        "landowner": "Ramesh Patel & Family",
+        "project_id": "PRJ-NHAI-2024"
+      }
+    ],
+    "retrieved_evidence": [
+      {
+        "document_id": "p2-doc-001",
+        "file_name": "SLAO_Award_Hinjewadi_Sec19.pdf",
+        "page_number": 2,
+        "excerpt": "[SLAO_Award_Hinjewadi_Sec19.pdf | Heading: 3. Possession of Survey 142/3A shall be taken on 2024-01-15 via Form E Panchn..."
+      },
+      {
+        "document_id": "p2-doc-001",
+        "file_name": "SLAO_Award_Hinjewadi_Sec19.pdf",
+        "page_number": 1,
+        "excerpt": "[SLAO_Award_Hinjewadi_Sec19.pdf | Schedule: NOTIFICATION UNDER SECTION 19 OF THE RFCTLARR ACT 2013]\nProject Code: PRJ-NH..."
+      }
+    ],
+    "final_answer": "The acquisition status of Survey 142/3A is Section 19 Notification Issued / Award Pending. This information is directly obtained from the authoritative database facts.",
+    "evidence_coverage": "COMPLETE",
+    "citations": [],
+    "conflicts": [],
+    "citations_correspond_to_evidence": true,
+    "unsupported_claim_detected": false
+  },
+  {
+    "query_number": 2,
+    "query": "What area is recorded for Survey 142/3A?",
+    "parsed_filters": {
+      "raw_survey_number": "142/3A",
+      "normalized_survey_number": "142/3A",
+      "survey_number": "142/3A",
+      "has_reliable_filter": true
+    },
+    "pg_facts": [
+      {
+        "parcel_id": "PCL-VADADALA-142-3A",
+        "survey_number": "142/3A",
+        "area_hectares": 0.45,
+        "land_category": "Agricultural",
+        "acquisition_status": "Section 19 Notification Issued / Award Pending",
+        "village": "Vadadala",
+        "tehsil": "Savli",
+        "district": "Vadodara",
+        "state": "Gujarat",
+        "total_award_amount": 2450000.0,
+        "payment_status": "Calculated",
+        "landowner": "Ramesh Patel & Family",
+        "project_id": "PRJ-NHAI-2024"
+      }
+    ],
+    "retrieved_evidence": [
+      {
+        "document_id": "p2-doc-001",
+        "file_name": "SLAO_Award_Hinjewadi_Sec19.pdf",
+        "page_number": 2,
+        "excerpt": "[SLAO_Award_Hinjewadi_Sec19.pdf | Heading: 3. Possession of Survey 142/3A shall be taken on 2024-01-15 via Form E Panchn..."
+      },
+      {
+        "document_id": "p2-doc-001",
+        "file_name": "SLAO_Award_Hinjewadi_Sec19.pdf",
+        "page_number": 1,
+        "excerpt": "[SLAO_Award_Hinjewadi_Sec19.pdf | Schedule: NOTIFICATION UNDER SECTION 19 OF THE RFCTLARR ACT 2013]\nProject Code: PRJ-NH..."
+      }
+    ],
+    "final_answer": "The area recorded for Survey 142/3A is 0.45 hectares, as per the authoritative database facts.",
+    "evidence_coverage": "COMPLETE",
+    "citations": [],
+    "conflicts": [],
+    "citations_correspond_to_evidence": true,
+    "unsupported_claim_detected": false
+  },
+  {
+    "query_number": 3,
+    "query": "What compensation was awarded for Survey 142/3A?",
+    "parsed_filters": {
+      "raw_survey_number": "142/3A",
+      "normalized_survey_number": "142/3A",
+      "survey_number": "142/3A",
+      "document_category": "Award",
+      "acquisition_stage": "Award Declaration",
+      "has_reliable_filter": true
+    },
+    "pg_facts": [
+      {
+        "parcel_id": "PCL-VADADALA-142-3A",
+        "survey_number": "142/3A",
+        "area_hectares": 0.45,
+        "land_category": "Agricultural",
+        "acquisition_status": "Section 19 Notification Issued / Award Pending",
+        "village": "Vadadala",
+        "tehsil": "Savli",
+        "district": "Vadodara",
+        "state": "Gujarat",
+        "total_award_amount": 2450000.0,
+        "payment_status": "Calculated",
+        "landowner": "Ramesh Patel & Family",
+        "project_id": "PRJ-NHAI-2024"
+      }
+    ],
+    "retrieved_evidence": [
+      {
+        "document_id": "p2-doc-001",
+        "file_name": "SLAO_Award_Hinjewadi_Sec19.pdf",
+        "page_number": 2,
+        "excerpt": "[SLAO_Award_Hinjewadi_Sec19.pdf | Heading: 3. Possession of Survey 142/3A shall be taken on 2024-01-15 via Form E Panchn..."
+      },
+      {
+        "document_id": "p2-doc-001",
+        "file_name": "SLAO_Award_Hinjewadi_Sec19.pdf",
+        "page_number": 1,
+        "excerpt": "[SLAO_Award_Hinjewadi_Sec19.pdf | Schedule: NOTIFICATION UNDER SECTION 19 OF THE RFCTLARR ACT 2013]\nProject Code: PRJ-NH..."
+      }
+    ],
+    "final_answer": "The compensation awarded for Survey 142/3A is INR 2,450,000. This information is documented in the SLAO_Award_Hinjewadi_Sec19.pdf document, specifically on page 2 (Chunk ID: 2), under the section 'Survey No. | Land Category | Area (Hectares) | Registered Owner / Khatedar | Compensation Awarded (INR)' with Survey Number 142/3A.",
+    "evidence_coverage": "COMPLETE",
+    "citations": [
+      {
+        "document_id": "p2-doc-001",
+        "file_name": "SLAO_Award_Hinjewadi_Sec19.pdf",
+        "page_number": 2
+      }
+    ],
+    "conflicts": [],
+    "citations_correspond_to_evidence": true,
+    "unsupported_claim_detected": false
+  },
+  {
+    "query_number": 4,
+    "query": "What does the award say about possession?",
+    "parsed_filters": {
+      "document_category": "Award",
+      "acquisition_stage": "Award Declaration",
+      "has_reliable_filter": true
+    },
+    "pg_facts": [],
+    "retrieved_evidence": [
+      {
+        "document_id": "p2-doc-001",
+        "file_name": "SLAO_Award_Hinjewadi_Sec19.pdf",
+        "page_number": 2,
+        "excerpt": "[SLAO_Award_Hinjewadi_Sec19.pdf | Heading: 3. Possession of Survey 142/3A shall be taken on 2024-01-15 via Form E Panchn..."
+      },
+      {
+        "document_id": "p2-doc-001",
+        "file_name": "SLAO_Award_Hinjewadi_Sec19.pdf",
+        "page_number": 1,
+        "excerpt": "[SLAO_Award_Hinjewadi_Sec19.pdf | Schedule: NOTIFICATION UNDER SECTION 19 OF THE RFCTLARR ACT 2013]\nProject Code: PRJ-NH..."
+      }
+    ],
+    "final_answer": "According to Document Evidence (SLAO_Award_Hinjewadi_Sec19.pdf), possession of Survey 142/3A shall be taken on 2024-01-15 via Form E Panchnama. This is stated in Section 3 of the document, as mentioned in Excerpt 1.",
+    "evidence_coverage": "COMPLETE",
+    "citations": [
+      {
+        "document_id": "p2-doc-001",
+        "file_name": "SLAO_Award_Hinjewadi_Sec19.pdf",
+        "page_number": 2
+      }
+    ],
+    "conflicts": [],
+    "citations_correspond_to_evidence": true,
+    "unsupported_claim_detected": false
+  },
+  {
+    "query_number": 5,
+    "query": "What documents are available for Survey 142/3A?",
+    "parsed_filters": {
+      "raw_survey_number": "142/3A",
+      "normalized_survey_number": "142/3A",
+      "survey_number": "142/3A",
+      "has_reliable_filter": true
+    },
+    "pg_facts": [
+      {
+        "parcel_id": "PCL-VADADALA-142-3A",
+        "survey_number": "142/3A",
+        "area_hectares": 0.45,
+        "land_category": "Agricultural",
+        "acquisition_status": "Section 19 Notification Issued / Award Pending",
+        "village": "Vadadala",
+        "tehsil": "Savli",
+        "district": "Vadodara",
+        "state": "Gujarat",
+        "total_award_amount": 2450000.0,
+        "payment_status": "Calculated",
+        "landowner": "Ramesh Patel & Family",
+        "project_id": "PRJ-NHAI-2024"
+      }
+    ],
+    "retrieved_evidence": [
+      {
+        "document_id": "p2-doc-001",
+        "file_name": "SLAO_Award_Hinjewadi_Sec19.pdf",
+        "page_number": 2,
+        "excerpt": "[SLAO_Award_Hinjewadi_Sec19.pdf | Heading: 3. Possession of Survey 142/3A shall be taken on 2024-01-15 via Form E Panchn..."
+      },
+      {
+        "document_id": "p2-doc-001",
+        "file_name": "SLAO_Award_Hinjewadi_Sec19.pdf",
+        "page_number": 1,
+        "excerpt": "[SLAO_Award_Hinjewadi_Sec19.pdf | Schedule: NOTIFICATION UNDER SECTION 19 OF THE RFCTLARR ACT 2013]\nProject Code: PRJ-NH..."
+      }
+    ],
+    "final_answer": "There is one document available for Survey 142/3A. The document is SLAO_Award_Hinjewadi_Sec19.pdf, which contains information about the award and compensation for Survey 142/3A.",
+    "evidence_coverage": "COMPLETE",
+    "citations": [
+      {
+        "document_id": "p2-doc-001",
+        "file_name": "SLAO_Award_Hinjewadi_Sec19.pdf",
+        "page_number": 1
+      },
+      {
+        "document_id": "p2-doc-001",
+        "file_name": "SLAO_Award_Hinjewadi_Sec19.pdf",
+        "page_number": 2
+      }
+    ],
+    "conflicts": [],
+    "citations_correspond_to_evidence": true,
+    "unsupported_claim_detected": false
+  },
+  {
+    "query_number": 6,
+    "query": "What is the status of a completely nonexistent survey?",
+    "parsed_filters": {
+      "has_reliable_filter": false
+    },
+    "pg_facts": [],
+    "retrieved_evidence": [
+      {
+        "document_id": "p2-doc-001",
+        "file_name": "SLAO_Award_Hinjewadi_Sec19.pdf",
+        "page_number": 2,
+        "excerpt": "[SLAO_Award_Hinjewadi_Sec19.pdf | Heading: 3. Possession of Survey 142/3A shall be taken on 2024-01-15 via Form E Panchn..."
+      },
+      {
+        "document_id": "p2-doc-001",
+        "file_name": "SLAO_Award_Hinjewadi_Sec19.pdf",
+        "page_number": 1,
+        "excerpt": "[SLAO_Award_Hinjewadi_Sec19.pdf | Schedule: NOTIFICATION UNDER SECTION 19 OF THE RFCTLARR ACT 2013]\nProject Code: PRJ-NH..."
+      }
+    ],
+    "final_answer": "There is no information in the provided context about a completely nonexistent survey. The context only mentions three surveys (142/3A, 142/3B, and 145/1) with their respective details. Since there is no mention of a nonexistent survey, it's not possible to determine its status.",
+    "evidence_coverage": "INSUFFICIENT",
+    "citations": [],
+    "conflicts": [],
+    "citations_correspond_to_evidence": true,
+    "unsupported_claim_detected": false
+  },
+  {
+    "query_number": 7,
+    "query": "Is there any area conflict between database facts and document evidence for Survey 142/3A?",
+    "parsed_filters": {
+      "raw_survey_number": "142/3A",
+      "normalized_survey_number": "142/3A",
+      "survey_number": "142/3A",
+      "has_reliable_filter": true
+    },
+    "pg_facts": [
+      {
+        "parcel_id": "PCL-VADADALA-142-3A",
+        "survey_number": "142/3A",
+        "area_hectares": 0.45,
+        "land_category": "Agricultural",
+        "acquisition_status": "Section 19 Notification Issued / Award Pending",
+        "village": "Vadadala",
+        "tehsil": "Savli",
+        "district": "Vadodara",
+        "state": "Gujarat",
+        "total_award_amount": 2450000.0,
+        "payment_status": "Calculated",
+        "landowner": "Ramesh Patel & Family",
+        "project_id": "PRJ-NHAI-2024"
+      }
+    ],
+    "retrieved_evidence": [
+      {
+        "document_id": "p2-doc-001",
+        "file_name": "SLAO_Award_Hinjewadi_Sec19.pdf",
+        "page_number": 2,
+        "excerpt": "[SLAO_Award_Hinjewadi_Sec19.pdf | Heading: 3. Possession of Survey 142/3A shall be taken on 2024-01-15 via Form E Panchn..."
+      },
+      {
+        "document_id": "p2-doc-001",
+        "file_name": "SLAO_Award_Hinjewadi_Sec19.pdf",
+        "page_number": 1,
+        "excerpt": "[SLAO_Award_Hinjewadi_Sec19.pdf | Schedule: NOTIFICATION UNDER SECTION 19 OF THE RFCTLARR ACT 2013]\nProject Code: PRJ-NH..."
+      }
+    ],
+    "final_answer": "There is no explicit area conflict detected between Database Facts and Document Evidence for Survey 142/3A. The Database Facts report an area of 0.45 hectares, while the Document Evidence (Source Excerpt 1) reports an area of 0.4500 hectares. Although there is a minor discrepancy in decimal places, it can be considered as a rounding error.",
+    "evidence_coverage": "COMPLETE",
+    "citations": [
+      {
+        "document_id": "p2-doc-001",
+        "file_name": "SLAO_Award_Hinjewadi_Sec19.pdf",
+        "page_number": 2
+      }
+    ],
+    "conflicts": [],
+    "citations_correspond_to_evidence": true,
+    "unsupported_claim_detected": false
+  }
+]

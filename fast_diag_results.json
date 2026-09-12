@@ -1,0 +1,54 @@
+[
+  {
+    "label": "FIRST ACCEPTANCE TEST",
+    "query": "What is the status of Survey 142/3A?",
+    "model": "llama3.1:8b",
+    "retrieval_time_ms": 8346.4,
+    "llm_time_sec": 37.68,
+    "total_time_sec": 46.03,
+    "retrieval_complete": true,
+    "llm_complete": true,
+    "coverage": "INSUFFICIENT",
+    "citations": [],
+    "answer": "Unable to contact local LLM server (Ollama connection error)."
+  },
+  {
+    "label": "REPRESENTATIVE QUERY 1 (Numerical Area)",
+    "query": "What is the area of Survey 142/3A in hectares?",
+    "model": "llama3.1:8b",
+    "retrieval_time_ms": 8202.9,
+    "llm_time_sec": 12.26,
+    "total_time_sec": 20.46,
+    "retrieval_complete": true,
+    "llm_complete": true,
+    "coverage": "INSUFFICIENT",
+    "citations": [],
+    "answer": "Unable to contact local LLM server (Ollama connection error)."
+  },
+  {
+    "label": "REPRESENTATIVE QUERY 2 (Conflict Handling)",
+    "query": "Is there a conflict between database values and document text for survey 142/3A?",
+    "model": "llama3.1:8b",
+    "retrieval_time_ms": 8176.6,
+    "llm_time_sec": 12.25,
+    "total_time_sec": 20.43,
+    "retrieval_complete": true,
+    "llm_complete": true,
+    "coverage": "INSUFFICIENT",
+    "citations": [],
+    "answer": "Unable to contact local LLM server (Ollama connection error)."
+  },
+  {
+    "label": "REPRESENTATIVE QUERY 3 (Insufficient Evidence)",
+    "query": "What is the solar panel energy output for Survey 142/3A?",
+    "model": "llama3.1:8b",
+    "retrieval_time_ms": 8209.1,
+    "llm_time_sec": 12.29,
+    "total_time_sec": 20.5,
+    "retrieval_complete": true,
+    "llm_complete": true,
+    "coverage": "INSUFFICIENT",
+    "citations": [],
+    "answer": "Unable to contact local LLM server (Ollama connection error)."
+  }
+]

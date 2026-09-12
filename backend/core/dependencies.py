@@ -8,6 +8,10 @@ from ..vectorstore.chroma_store import ChromaStore
 from ..embedding.embedding_model import EmbeddingModel
 from ..services.llm_service import LLMService
 from ..services.entity_service import EntityService
+from ..services.db_service import DatabaseService
+from ..services.classification_service import ClassificationService
+from ..services.query_parser import QueryParser
+from ..services.retrieval_service import RetrievalService
 from ..llm.llm_model import LLMModel
 from ..core.ocr import OCRService
 from fastapi import Depends
@@ -24,14 +28,33 @@ _search_service = SearchService(
 _llm_model = LLMModel()
 _llm_service = LLMService(_llm_model)
 _entity_service = EntityService(_llm_model)
+_db_service = DatabaseService()
+_classification_service = ClassificationService(_llm_model)
+_query_parser = QueryParser(_llm_model)
+_retrieval_service = RetrievalService(
+    query_parser=_query_parser,
+    embedding_service=_embedding_service,
+    db_service=_db_service,
+    store=_store
+)
+
+from ..services.conflict_detector import ConflictDetector
+from ..services.context_builder import ContextBuilder
+
+_conflict_detector = ConflictDetector()
+_context_builder = ContextBuilder()
 
 _ocr_service = OCRService()
 _document_service = DocumentService(_ocr_service)
 _chunk_service = ChunkService(_document_service)
+
 _rag_service = RAGService(
-    _search_service,
-    _llm_service,
+    retrieval_service=_retrieval_service,
+    conflict_detector=_conflict_detector,
+    context_builder=_context_builder,
+    llm_service=_llm_service,
 )
+
 
 def get_document_service():
     return _document_service
@@ -61,3 +84,26 @@ def get_repository_service(
 
 def get_entity_service():
     return _entity_service
+
+def get_db_service():
+    return _db_service
+
+def get_classification_service():
+    return _classification_service
+
+def get_query_parser():
+    return _query_parser
+
+def get_retrieval_service():
+    return _retrieval_service
+
+def get_conflict_detector():
+    return _conflict_detector
+
+def get_context_builder():
+    return _context_builder
+
+def get_llm_service():
+    return _llm_service
+
+

@@ -1,0 +1,39 @@
+{
+  "conflict_query_verification": {
+    "conflict_detector_true": true,
+    "has_pg_value_0_45": true,
+    "has_doc_value_0_52": true,
+    "both_values_reported": true,
+    "cites_page_4": true,
+    "answer": "Yes, there is a numerical discrepancy (area) between the authoritative database value and document evidence. The database records an area of 0.45 hectares, while the document evidence from Surveyor_Field_Inspection_Report.pdf (Doc ID: p2-doc-conflict-001, Page 4) indicates an area of 0.52 hectares.",
+    "citations": [
+      {
+        "document_id": "p2-doc-conflict-001",
+        "file_name": "Surveyor_Field_Inspection_Report.pdf",
+        "page_number": 4
+      }
+    ],
+    "conflicts": [
+      {
+        "field_name": "area_hectares",
+        "authoritative_value": "0.4500 Ha",
+        "document_value": "0.5200 Ha",
+        "document_id": "p2-doc-conflict-001",
+        "file_name": "Surveyor_Field_Inspection_Report.pdf",
+        "page_number": 4,
+        "conflict_type": "Numerical Discrepancy (Area)"
+      }
+    ]
+  },
+  "normal_query_verification": {
+    "coverage": "COMPLETE",
+    "answer": "According to Document Evidence, possession of Survey 142/3A shall be taken on 2024-01-15 via Form E Panchnama. This information is mentioned in SLAO_Award_Hinjewadi_Sec19.pdf (Document ID: p2-doc-001) on Page 2.",
+    "citations": [
+      {
+        "document_id": "p2-doc-001",
+        "file_name": "SLAO_Award_Hinjewadi_Sec19.pdf",
+        "page_number": 2
+      }
+    ]
+  }
+}

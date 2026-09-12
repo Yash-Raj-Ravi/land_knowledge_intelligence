@@ -30,7 +30,7 @@ OLLAMA_BASE_URL = "http://localhost:11434"
 
 # Vector database
 CHROMA_PATH = BASE_DIR / "chroma_db"
-COLLECTION_NAME = "industrial_documents"
+COLLECTION_NAME = "land_acquisition_documents"
 
 # LLM
 LLM_MODEL = "llama3.1:8b"
@@ -48,3 +48,28 @@ OCR_SUPPORTED_EXTENSIONS = {
 }
 
 EMBEDDING_BATCH_SIZE = 16
+
+# Structure-Aware Chunking Defaults
+CHUNK_TARGET_MIN = 800
+CHUNK_TARGET_MAX = 1200
+MAX_TABLE_ROWS_PER_CHUNK = 10
+
+# PostgreSQL Configuration
+PG_HOST = "localhost"
+PG_PORT = 5432
+PG_DB = "land_acquisition_db"
+PG_USER = "postgres"
+PG_PASSWORD = "postgres_password"
+
+# Land Acquisition Document Categories
+DOCUMENT_CATEGORIES = [
+    "Land Record / Revenue Record",
+    "Acquisition Notification",
+    "Award",
+    "Compensation Record",
+    "R&R Record",
+    "Possession Record",
+    "Government Order / Approval",
+    "Survey / Inspection Report",
+    "Legal / Dispute Document"
+]
