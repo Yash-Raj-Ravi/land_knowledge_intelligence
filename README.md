@@ -233,7 +233,7 @@ INSUFFICIENT
 
 The system explicitly reports insufficient evidence instead of hallucinating.
 
-![Land Acquisition Copilot](images/Land-Acquisition-Copilot.png)
+![Land Acquisition Copilot](images/Land%20Acquisition%20Copilot.png)
 *Context-aware copilot with grounded evidence, citations, and conflict detection.*
 
 ---
@@ -422,7 +422,7 @@ The voice layer enables natural-language interaction using:
 - Hindi
 - Marathi
 
-![Multilingual Voice Copilot](images/Multilingual-voice-Copilot.png)
+![Multilingual Voice Copilot](images/Multilingual%20voice%20Copilot.png)
 
 ### Voice Pipeline
 
