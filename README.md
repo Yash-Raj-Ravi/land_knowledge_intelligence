@@ -233,7 +233,7 @@ INSUFFICIENT
 
 The system explicitly reports insufficient evidence instead of hallucinating.
 
-![Land Acquisition Copilot](images/Land%20Acquisition%20Copilot.png)
+![Land Acquisition Copilot](images/Land%20Acquistion%20Copilot.png)
 *Context-aware copilot with grounded evidence, citations, and conflict detection.*
 
 ---
