@@ -56,6 +56,41 @@ _rag_service = RAGService(
 )
 
 
+from ..analytics.query_parser import AnalyticsQueryParser
+from ..services.analytics_service import AnalyticsService
+
+_analytics_query_parser = AnalyticsQueryParser(_llm_model)
+_analytics_service = AnalyticsService(
+    query_parser=_analytics_query_parser,
+    db_service=_db_service,
+    llm_service=_llm_service
+)
+
+
+from ..services.report_service import ReportService
+
+_report_service = ReportService(
+    db_service=_db_service,
+    retrieval_service=_retrieval_service,
+    conflict_detector=_conflict_detector,
+    llm_service=_llm_service
+)
+
+from ..services.anomaly_service import AnomalyService
+from ..services.attention_service import AttentionService
+from ..services.intelligence_service import IntelligenceService
+
+_anomaly_service = AnomalyService()
+_attention_service = AttentionService()
+_intelligence_service = IntelligenceService(
+    db_service=_db_service,
+    retrieval_service=_retrieval_service,
+    conflict_detector=_conflict_detector,
+    anomaly_service=_anomaly_service,
+    attention_service=_attention_service
+)
+
+
 def get_document_service():
     return _document_service
 
@@ -105,5 +140,32 @@ def get_context_builder():
 
 def get_llm_service():
     return _llm_service
+
+def get_analytics_service():
+    return _analytics_service
+
+def get_report_service():
+    return _report_service
+
+def get_anomaly_service():
+    return _anomaly_service
+
+def get_attention_service():
+    return _attention_service
+
+def get_intelligence_service():
+    return _intelligence_service
+
+
+from ..services.voice_service import VoiceService
+
+_voice_service = VoiceService()
+
+def get_voice_service():
+    return _voice_service
+
+
+
+
 
 

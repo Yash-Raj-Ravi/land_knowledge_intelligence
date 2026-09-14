@@ -30,13 +30,27 @@ class RAGService:
         """
         Main Phase 3 Grounded RAG Generation Endpoint.
         """
-        # 1. Phase 2 Retrieval Layer Execution
+        # 1. Phase 2 Retrieval Layer Execution with Contextual Filters
+        filters_override = {}
+        if request.project_id:
+            filters_override["project_id"] = request.project_id
+        if request.parcel_id:
+            filters_override["parcel_id"] = request.parcel_id
+        if request.survey_number:
+            filters_override["survey_number"] = request.survey_number
+            filters_override["normalized_survey_number"] = request.survey_number
+        if request.village:
+            filters_override["village"] = request.village
+        if request.district:
+            filters_override["district"] = request.district
+
         retrieval_req = RetrievalRequest(
             query=request.query,
             top_k=request.top_k,
-            project_id=request.project_id
+            filters_override=filters_override if filters_override else None
         )
         retrieval_response: RetrievalResponse = self.retrieval_service.retrieve(retrieval_req)
+
 
         # 2. Deterministic Conflict Detection
         conflicts: List[ConflictItem] = self.conflict_detector.detect_conflicts(
@@ -51,7 +65,11 @@ class RAGService:
         )
 
         # 4. Prompt Generation
-        prompt: str = build_land_rag_prompt(context=context_str, query=request.query)
+        prompt: str = build_land_rag_prompt(
+            context=context_str,
+            query=request.query,
+            response_language=request.response_language
+        )
 
         # 5. LLM Call #1
         raw_response = self.llm_service.generate_response(prompt)

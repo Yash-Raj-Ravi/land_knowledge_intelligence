@@ -3,6 +3,7 @@ import json
 import logging
 from typing import Dict, Any, List, Optional
 from backend.models.land_metadata import LandDocumentMetadata, DocumentCategoryEnum, sanitize_survey_number
+from backend.utils.language_detector import detect_language
 
 logger = logging.getLogger(__name__)
 
@@ -214,11 +215,17 @@ Document Excerpt:
         if category not in valid_categories:
             category = "Land Record / Revenue Record"
 
+        # Heuristic Language Detection
+        lang_info = detect_language(text)
+        detected_code = lang_info.get("language")
+        lang_map = {"hi": "Hindi", "mr": "Marathi", "en": "English"}
+        resolved_language = lang_map.get(detected_code) or llm_meta.get("language") or "English"
+
         merged_payload = {
             "document_id": document_id,
             "source_file": source_file,
             "document_category": category,
-            "language": llm_meta.get("language") or "English",
+            "language": resolved_language,
             "total_pages": total_pages,
 
             # User Overrides > Deterministic Regex > LLM Fallback

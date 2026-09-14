@@ -13,6 +13,13 @@ class AskRequest(BaseModel):
     query: str
     top_k: int = 10
     project_id: Optional[str] = None
+    parcel_id: Optional[str] = None
+    survey_number: Optional[str] = None
+    village: Optional[str] = None
+    district: Optional[str] = None
+    response_language: Optional[str] = None # en | hi | mr | auto
+
+
 
 class AskResponse(BaseModel):
     answer: str

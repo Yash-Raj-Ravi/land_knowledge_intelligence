@@ -1,6 +1,7 @@
-from fastapi import FastAPI,UploadFile,File,HTTPException
+from fastapi import FastAPI, UploadFile, File, HTTPException, Depends, Form
 import shutil
 import os,uuid
+import logging
 from .services.chunk_service import ChunkService
 from .services.document_service import DocumentService
 from .services.embedding_service import EmbeddingService
@@ -14,9 +15,9 @@ from .models.search import SearchResponse, SearchRequest
 from .config import ALLOWED_TYPES, UPLOAD_DIR
 from pydantic import BaseModel
 from .models.embedding import EmbedResponse, ResetResponse
+from .models.land_metadata import LandEmbedRequest
+from .services.classification_service import ClassificationService
 from .services.rag_service import RAGService
-from fastapi import Depends
-from fastapi import Depends, HTTPException
 from backend.models.entities import EntityRequest, EntityResponse
 
 # Services
@@ -28,8 +29,34 @@ from .core.dependencies import (
     get_search_service,
     get_entity_service,
     get_rag_service,
-    get_repository_service
+    get_repository_service,
+    get_db_service,
+    get_classification_service,
+    get_analytics_service,
+    get_report_service,
+    get_intelligence_service,
+    get_voice_service
 )
+from .services.db_service import DatabaseService
+from .services.analytics_service import AnalyticsService
+from .services.report_service import ReportService
+from .services.intelligence_service import IntelligenceService
+from .services.voice_service import VoiceService
+from .models.analytics import AnalyticsResponse, AnalyticsRequest
+from .models.report import ProjectReportRequest, ProjectReportResponse
+from .models.intelligence import ParcelIntelligenceResponse, ProjectIntelligenceResponse
+from .models.voice import STTResponse, TTSRequest, TTSResponse, VoiceAskResponse
+
+
+from typing import Optional
+
+class AnalyticsQueryInput(BaseModel):
+    query: str
+
+    project_id: Optional[str] = None
+
+
+logger = logging.getLogger(__name__)
 
 from .models.repository import RepositoryResponse
 from .services.repository_service import RepositoryService
@@ -215,6 +242,187 @@ def ask_endpoint(
         import traceback
         traceback.print_exc()
         raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.get("/projects")
+def projects_endpoint(
+    db_service: DatabaseService = Depends(get_db_service)
+):
+    try:
+        return db_service.list_all_projects()
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.get("/parcels")
+def parcels_endpoint(
+    project_id: Optional[str] = None,
+    village: Optional[str] = None,
+    db_service: DatabaseService = Depends(get_db_service)
+):
+    try:
+        return db_service.list_all_parcels(project_id=project_id, village=village)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.post("/analytics/query", response_model=AnalyticsResponse)
+def analytics_query_endpoint(
+    input_data: AnalyticsQueryInput,
+    analytics_service: AnalyticsService = Depends(get_analytics_service)
+):
+    try:
+        return analytics_service.process_query(input_data.query, project_id=input_data.project_id)
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.post("/reports/project", response_model=ProjectReportResponse)
+def project_report_endpoint(
+    request: ProjectReportRequest,
+    report_service: ReportService = Depends(get_report_service)
+):
+    try:
+        return report_service.generate_project_report(request.project_id)
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.get("/parcels/{parcel_id:path}/intelligence", response_model=ParcelIntelligenceResponse)
+def parcel_intelligence_endpoint(
+    parcel_id: str,
+    intelligence_service: IntelligenceService = Depends(get_intelligence_service)
+):
+    try:
+        return intelligence_service.get_parcel_intelligence(parcel_id)
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.get("/projects/{project_id}/intelligence", response_model=ProjectIntelligenceResponse)
+def project_intelligence_endpoint(
+    project_id: str,
+    intelligence_service: IntelligenceService = Depends(get_intelligence_service)
+):
+    try:
+        return intelligence_service.get_project_intelligence(project_id)
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.post("/voice/transcribe", response_model=STTResponse)
+def voice_transcribe_endpoint(
+    file: UploadFile = File(...),
+    language: Optional[str] = Form("auto"),
+    voice_service: VoiceService = Depends(get_voice_service)
+):
+    try:
+        audio_bytes = file.file.read()
+        return voice_service.transcribe(
+            audio_bytes=audio_bytes,
+            filename=file.filename or "audio.wav",
+            language=language or "auto"
+        )
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.post("/voice/synthesize", response_model=TTSResponse)
+def voice_synthesize_endpoint(
+    request: TTSRequest,
+    voice_service: VoiceService = Depends(get_voice_service)
+):
+    try:
+        return voice_service.synthesize(
+            text=request.text,
+            language=request.language
+        )
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.post("/voice/ask", response_model=VoiceAskResponse)
+def voice_ask_endpoint(
+    file: UploadFile = File(...),
+    language: Optional[str] = Form("auto"),
+    project_id: Optional[str] = Form(None),
+    parcel_id: Optional[str] = Form(None),
+    survey_number: Optional[str] = Form(None),
+    village: Optional[str] = Form(None),
+    district: Optional[str] = Form(None),
+    voice_service: VoiceService = Depends(get_voice_service),
+    rag_service: RAGService = Depends(get_rag_service)
+):
+    try:
+        audio_bytes = file.file.read()
+        stt_res = voice_service.transcribe(
+            audio_bytes=audio_bytes,
+            filename=file.filename or "audio.wav",
+            language=language or "auto"
+        )
+
+        if not stt_res.transcript or stt_res.provider == "failed":
+            raise HTTPException(
+                status_code=400,
+                detail=f"Speech recognition failed: {stt_res.message or 'No transcript produced'}"
+            )
+
+        resp_lang = stt_res.language if stt_res.language not in ["unknown", "auto"] else (language if language != "auto" else "en")
+
+        ask_req = AskRequest(
+            query=stt_res.transcript,
+            project_id=project_id,
+            parcel_id=parcel_id,
+            survey_number=survey_number,
+            village=village,
+            district=district,
+            response_language=resp_lang
+        )
+
+        rag_res = rag_service.ask(ask_req)
+
+        tts_res = voice_service.synthesize(text=rag_res.answer, language=resp_lang)
+
+        return VoiceAskResponse(
+            transcript=stt_res.transcript,
+            language=resp_lang,
+            answer=rag_res.answer,
+            citations=rag_res.citations,
+            evidence_coverage=rag_res.evidence_coverage,
+            conflicts=rag_res.conflicts,
+            audio_base64=tts_res.audio_base64,
+            audio_available=bool(tts_res.audio_base64)
+        )
+
+    except HTTPException:
+        raise
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+
+
+
 
 
 

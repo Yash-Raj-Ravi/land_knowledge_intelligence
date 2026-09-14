@@ -14,6 +14,13 @@ class DocumentCategoryEnum(str, Enum):
     SURVEY_REPORT = "Survey / Inspection Report"
     LEGAL_DISPUTE = "Legal / Dispute Document"
 
+class LandEmbedRequest(BaseModel):
+    file_path: str
+    project_id: Optional[str] = None
+    document_category: Optional[str] = None
+    village: Optional[str] = None
+    survey_number: Optional[str] = None
+
 INVALID_SURVEY_TOKENS = {"NO", "SURVEY", "PLOT", "GAT", "KHASRA", "THE", "PAGE", "AND", "OF", "NIL", "NONE"}
 
 def sanitize_survey_number(val: str) -> Optional[str]:

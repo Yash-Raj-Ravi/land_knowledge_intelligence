@@ -444,3 +444,88 @@ class DatabaseService:
 
         return records
 
+    def list_all_projects(self) -> List[Dict[str, Any]]:
+        conn = self.get_connection()
+        projects = []
+        if conn:
+            try:
+                with conn.cursor() as cur:
+                    cur.execute("SELECT project_id, name, state, district FROM projects;")
+                    rows = cur.fetchall()
+                    for r in rows:
+                        projects.append({"project_id": r[0], "name": r[1], "state": r[2], "district": r[3]})
+            except Exception as e:
+                logger.error(f"Error fetching projects: {e}")
+            finally:
+                conn.close()
+
+        if not projects:
+            projects = [
+                {"project_id": "PRJ-NHAI-2024", "name": "NHAI Expressway Expansion 2024", "state": "Gujarat", "district": "Vadodara"},
+                {"project_id": "PRJ-DEFAULT", "name": "Default Industrial Corridor Project", "state": "Maharashtra", "district": "Pune"}
+            ]
+        return projects
+
+    def list_all_parcels(self, project_id: Optional[str] = None, village: Optional[str] = None) -> List[Dict[str, Any]]:
+        parcels = []
+        conn = self.get_connection()
+        if conn:
+            try:
+                with conn.cursor() as cur:
+                    query = """
+                        SELECT p.parcel_id, p.survey_number, p.area_hectares, p.land_category, p.acquisition_status,
+                               v.name as village_name, v.tehsil, v.district, v.state, v.project_id,
+                               ca.total_award_amount, ca.payment_status
+                        FROM parcels p
+                        JOIN villages v ON p.village_id = v.village_id
+                        LEFT JOIN compensation_awards ca ON ca.parcel_id = p.parcel_id
+                    """
+                    conditions = []
+                    params = []
+                    if project_id:
+                        conditions.append("UPPER(v.project_id) = UPPER(%s)")
+                        params.append(project_id)
+                    if village:
+                        conditions.append("LOWER(v.name) = LOWER(%s)")
+                        params.append(village)
+
+                    if conditions:
+                        query += " WHERE " + " AND ".join(conditions)
+
+                    cur.execute(query, tuple(params))
+                    rows = cur.fetchall()
+                    for r in rows:
+                        parcels.append({
+                            "parcel_id": r[0],
+                            "survey_number": r[1],
+                            "area_hectares": float(r[2]) if r[2] is not None else None,
+                            "land_category": r[3],
+                            "acquisition_status": r[4],
+                            "village": r[5],
+                            "tehsil": r[6],
+                            "district": r[7],
+                            "state": r[8],
+                            "project_id": r[9],
+                            "total_award_amount": float(r[10]) if r[10] is not None else None,
+                            "payment_status": r[11]
+                        })
+            except Exception as e:
+                logger.error(f"Error listing parcels: {e}")
+            finally:
+                conn.close()
+
+        # Supplement / fallback with in-memory store
+        seen_parcels = {p["parcel_id"] for p in parcels}
+        for parcel in self.in_memory_parcels.values():
+            pid = parcel.get("parcel_id")
+            if pid and pid not in seen_parcels:
+                if project_id and parcel.get("project_id", "").upper() != project_id.upper() and project_id.upper() not in pid.upper():
+                    continue
+                if village and parcel.get("village", "").lower() != village.lower():
+                    continue
+                parcels.append(parcel)
+                seen_parcels.add(pid)
+
+        return parcels
+
+

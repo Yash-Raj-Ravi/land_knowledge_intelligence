@@ -126,30 +126,46 @@ def extract_entities(document_id: str) -> dict:
             "error": "Unable to connect to backend."
         }
 
-def ask_question(question:str) -> dict:
+def ask_question(
+    question: str,
+    project_id: str = None,
+    parcel_id: str = None,
+    survey_number: str = None,
+    village: str = None,
+    district: str = None,
+    response_language: str = None
+) -> dict:
     """
-    Sends a question to the RAG backend.
-
-    Returns:
-        dict: {
-            "success": bool,
-            "data": dict | None,
-            "error": str | None
-        }
+    Sends a question to the RAG backend with optional contextual scoping parameters.
     """
     try:
+        payload = {
+            "query": question,
+            "top_k": 10
+        }
+        if project_id:
+            payload["project_id"] = project_id
+        if parcel_id:
+            payload["parcel_id"] = parcel_id
+        if survey_number:
+            payload["survey_number"] = survey_number
+        if village:
+            payload["village"] = village
+        if district:
+            payload["district"] = district
+        if response_language and response_language != "auto":
+            payload["response_language"] = response_language
+
         ask_response = requests.post(
             get_url(ASK_ENDPOINT),
-            json={
-                "query" : question,
-                "top_k" : 20,
-                "include_sources" : True
-                },
-            timeout = REQUEST_TIMEOUT
+            json=payload,
+            timeout=REQUEST_TIMEOUT
         )
         if ask_response.status_code != 200:
-            return {"success": False,
-                    "error": ask_response.json().get("detail", "Failed to retrieve an answer.")}
+            return {
+                "success": False,
+                "error": ask_response.json().get("detail", "Failed to retrieve an answer.")
+            }
 
         return {"success": True, "data": ask_response.json()}
 
@@ -158,6 +174,7 @@ def ask_question(question:str) -> dict:
             "success": False,
             "error": "Unable to connect to the backend."
         }
+
 
 def get_documents() -> dict:
     try:
@@ -238,5 +255,126 @@ def delete_document(document_id: str) -> dict:
             "success": False,
             "error": "Unable to connect to backend."
         }
+
+
+def get_projects() -> dict:
+    try:
+        response = requests.get(get_url("/projects"), timeout=REQUEST_TIMEOUT)
+        if response.status_code != 200:
+            return {"success": False, "error": response.json().get("detail", "Failed to fetch projects.")}
+        return {"success": True, "data": response.json()}
+    except requests.RequestException:
+        return {"success": False, "error": "Unable to connect to backend."}
+
+
+def get_parcels(project_id: str = None, village: str = None) -> dict:
+    try:
+        params = {}
+        if project_id:
+            params["project_id"] = project_id
+        if village:
+            params["village"] = village
+        response = requests.get(get_url("/parcels"), params=params, timeout=REQUEST_TIMEOUT)
+        if response.status_code != 200:
+            return {"success": False, "error": response.json().get("detail", "Failed to fetch parcels.")}
+        return {"success": True, "data": response.json()}
+    except requests.RequestException:
+        return {"success": False, "error": "Unable to connect to backend."}
+
+
+def query_analytics(query: str, project_id: str = None) -> dict:
+    try:
+        payload = {"query": query}
+        if project_id:
+            payload["project_id"] = project_id
+        response = requests.post(get_url("/analytics/query"), json=payload, timeout=REQUEST_TIMEOUT)
+        if response.status_code != 200:
+            return {"success": False, "error": response.json().get("detail", "Failed to query analytics.")}
+        return {"success": True, "data": response.json()}
+    except requests.RequestException:
+        return {"success": False, "error": "Unable to connect to backend."}
+
+
+def generate_project_report(project_id: str) -> dict:
+    try:
+        response = requests.post(get_url("/reports/project"), json={"project_id": project_id}, timeout=REQUEST_TIMEOUT * 2)
+        if response.status_code != 200:
+            return {"success": False, "error": response.json().get("detail", "Failed to generate project report.")}
+        return {"success": True, "data": response.json()}
+    except requests.RequestException:
+        return {"success": False, "error": "Unable to connect to backend."}
+
+
+def transcribe_audio(file_bytes: bytes, filename: str = "audio.wav", language: str = "auto") -> dict:
+    try:
+        files = {"file": (filename, file_bytes, "audio/wav")}
+        data = {"language": language or "auto"}
+        response = requests.post(get_url("/voice/transcribe"), files=files, data=data, timeout=REQUEST_TIMEOUT)
+        if response.status_code != 200:
+            return {"success": False, "error": response.json().get("detail", "STT transcription failed.")}
+        return {"success": True, "data": response.json()}
+    except requests.RequestException:
+        return {"success": False, "error": "Unable to connect to backend."}
+
+
+def synthesize_speech(text: str, language: str = "en") -> dict:
+    try:
+        payload = {"text": text, "language": language}
+        response = requests.post(get_url("/voice/synthesize"), json=payload, timeout=REQUEST_TIMEOUT)
+        if response.status_code != 200:
+            return {"success": False, "error": response.json().get("detail", "TTS synthesis failed.")}
+        return {"success": True, "data": response.json()}
+    except requests.RequestException:
+        return {"success": False, "error": "Unable to connect to backend."}
+
+
+def ask_voice(
+    file_bytes: bytes,
+    filename: str = "audio.wav",
+    language: str = "auto",
+    project_id: str = None,
+    parcel_id: str = None,
+    survey_number: str = None,
+    village: str = None,
+    district: str = None
+) -> dict:
+    try:
+        audio_mime = "audio/wav"
+        audio_filename = filename or "audio.wav"
+        if file_bytes.startswith(b"\x1a\x45\xdf\xa3"):
+            audio_mime = "audio/webm"
+            audio_filename = f"{Path(audio_filename).stem}.webm"
+        elif file_bytes.startswith(b"OggS"):
+            audio_mime = "audio/ogg"
+            audio_filename = f"{Path(audio_filename).stem}.ogg"
+        elif len(file_bytes) >= 8 and file_bytes[4:8] == b"ftyp":
+            audio_mime = "audio/mp4"
+            audio_filename = f"{Path(audio_filename).stem}.m4a"
+        elif not file_bytes.startswith(b"RIFF"):
+            audio_mime = "application/octet-stream"
+
+        files = {"file": (audio_filename, file_bytes, audio_mime)}
+        data = {"language": language or "auto"}
+        if project_id:
+            data["project_id"] = project_id
+        if parcel_id:
+            data["parcel_id"] = parcel_id
+        if survey_number:
+            data["survey_number"] = survey_number
+        if village:
+            data["village"] = village
+        if district:
+            data["district"] = district
+
+        response = requests.post(get_url("/voice/ask"), files=files, data=data, timeout=REQUEST_TIMEOUT * 2)
+        if response.status_code != 200:
+            return {"success": False, "error": response.json().get("detail", "Voice query processing failed.")}
+        return {"success": True, "data": response.json()}
+    except requests.RequestException:
+        return {"success": False, "error": "Unable to connect to backend."}
+
+
+
+
 
 
